@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 from flask import Flask, request, jsonify
@@ -102,3 +103,6 @@ def init_db_command():
     """Creates the database tables."""
     db.create_all()
     print("Initialized the database.")
+=======
+
+>>>>>>> 8fcb8e3b4ad4918473389cb5224a847c2abdfbe0
