@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Box</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="my-box">
+        <h1>Already Registered</h1>
+
+        <label for="username">Enter Username</label>
+        <input type="text" id="username" class="input-field" required><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" id="password" class="input-field" required><br>
+
+        <button class="login-button">LOG IN</button>
+        <br><br>
+        
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="registration">
+        <h1>Create Account</h1>
+        
+        <label for="username" class="label">Username</label><br>
+        <input class="input-field" type="text" id="username" placeholder="Choose a username" required><br>
+
+        <label for="email" class="label">Email</label><br>
+        <input class="input-field" type="email" id="email" placeholder="Your email address" required><br>
+
+        <label for="address" class="label">Address</label><br>
+        <input class="input-field" type="text" id="address" placeholder="Your address"><br>
+
+        <label for="password" class="label">Password</label><br>
+        <input class="input-field" type="password" id="password" placeholder="At least 6 characters" required><br>
+
+        <button class="regbtn">Register</button><br>
+        <a class="al-reg" href="login.html">Already Registered? Log in</a>
+    </div>
+
+<script>
+document.querySelector('.regbtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Stop default form submission
+
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    const password = document.getElementById('password').value;
+
+    const payload = {
+        username: username,
+        email: email,
+        address: address,
+        password: password
+    };
+
+    fetch('http://127.0.0.1:5000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Show success or error message
+        if (response.ok) { // If registration was successful
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+</script>
+</body>
+</html>
+       
+
+<!-- Fixed version -->
+<a href="/register- Registered? click here</a>
+    </div>
+
+<script>
+document.querySelector('.login-button').addEventListener('click', function(event) {
+    event.preventDefault(); // Stop default form submission
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const payload = {
+        username: username,
+        password: password
+    };
+
+    fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.access_token) {
+            alert('Login Successful!');
+            // In a real app, you would save this token:
+            // localStorage.setItem('accessToken', data.access_token);
+            console.log('Access Token:', data.access_token);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred during login.');
+    });
+});
+</script>
+</body>
+</html>
