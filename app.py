@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, JWTManager
@@ -39,7 +36,25 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-@app.route('/register', methods=['POST'])
+# --- Route for serving HTML pages ---
+@app.route('/')
+def index():
+    """Home page - redirect to login."""
+    return render_template('login.html')
+
+@app.route('/login')
+def login_page():
+    """Serve the login page."""
+    return render_template('login.html')
+
+@app.route('/register')  
+def register_page():
+    """Serve the register page."""
+    return render_template('register.html')
+
+
+# --- API Routes ---
+@app.route('/api/register', methods=['POST'])
 def register():
     """Registers a new user, checking for duplicates first."""
     data = request.get_json()
@@ -65,8 +80,8 @@ def register():
     
     return jsonify({"message": "User registered successfully!"}), 201
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/api/login', methods=['POST'])
+def api_login():
     """Logs in a user and returns a JWT."""
     data = request.get_json()
     if not data or not data.get('username') or not data.get('password'):
@@ -81,7 +96,7 @@ def login():
     return jsonify({"message": "Invalid username or password"}), 401
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'])
 def get_users():
     """Returns a list of all registered users (for testing)."""
     users = User.query.all()
@@ -103,6 +118,9 @@ def init_db_command():
     """Creates the database tables."""
     db.create_all()
     print("Initialized the database.")
-=======
 
->>>>>>> 8fcb8e3b4ad4918473389cb5224a847c2abdfbe0
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
